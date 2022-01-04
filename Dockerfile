@@ -1,13 +1,6 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 
-COPY *.csproj ./
-RUN dotnet restore
-
-COPY . ./
-RUN dotnet publish -c Release -o out
-
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
-WORKDIR /app
-COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "TodoApi.dll"]
+COPY bin/Release/net6.0/publish/ App/
+WORKDIR /App
+EXPOSE 7269
+ENTRYPOINT ["dotnet", "dotnet-webapi.dll"]
